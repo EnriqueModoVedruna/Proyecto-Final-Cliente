@@ -1,0 +1,62 @@
+---
+const { tiempo, id, nombre, descripcion, imagen, image, url, enlace, instituto, skill, nivel,name, oficio, test = false } = Astro.props
+
+---
+
+<!-- En los estilos he tenido que indicar otra vez el borde porque este estilo afecta a las tarjetas -->
+<div class="grid grid-cols-3 grid-rows-1 w-full p-2 place-items-center border-[1px] py-8 border-black">
+    <div class="self-start justify-self-start md: w-20 aspect-square">
+        <b><p class="text-text/50 text-base">
+            { tiempo }
+            {skill}
+            {name}
+        </p></b>
+        <img src = {imagen}/>
+    </div>
+
+    <div class="self-start justify-self-start text-left">
+        <b><p class="text-lg text-text/80">{nombre}</p></b>
+        <b><p class="text-lg text-text/80">{oficio}</p></b>
+        <p class="text-sm text-text/70">{descripcion}</p>
+        <p class="text-sm">{nivel}</p>
+    </div>
+    
+
+    <div class="self-start justify-self-end md: w-20 aspect-square">
+        <a href={enlace} target="_blank" class="text-base text-right text-text/60 hover:text-text/80 flex justify-center items-center">
+            {url}
+        </a>
+        <b><p>{instituto}</p></b>
+        <img src={image} />
+        <!-- Boton de eliminar -->
+        {test && <button onclick={`deleteCard(${id})`} class="p-2 bg-red-700 text-white">Eliminar</button>}
+    </div>
+</div>
+
+<script>
+    // Esta función se ejecuta en el navegador para borrar las cartas
+    window.deleteCard = async function(id: number) {
+        const response = await fetch(`http://localhost:8080/projects/${id}`, { method: 'DELETE' });
+        if (response.ok) {
+            alert("Proyecto eliminado correctamente");
+            console.log('Proyecto eliminado');
+        } else {
+            alert("Error al eliminar el proyecto");
+            console.error('Error al eliminar');
+        }
+    }
+</script>
+
+<script>
+    // Esta función se ejecuta en el navegador para buscar las cartas
+    window.buscarCard = async function(nombre: string) {
+        const response = await fetch(`http://localhost:8080/projects/${nombre}`, { method: 'GET' });
+        if (response.ok) {
+            alert("Card eliminada correctamente");
+            console.log('Card eliminada');
+        } else {
+            alert("Error al eliminar la card");
+            console.error('Error al eliminar');
+        }
+    }
+</script>

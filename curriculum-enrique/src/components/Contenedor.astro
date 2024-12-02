@@ -1,0 +1,167 @@
+---
+import * as CONT from "../pages/contenido.js";
+import Layout from "../layouts/LayoutDesplegable.astro";
+import Card from "./Cards.astro";
+import { prepareCardProject, Project } from "../pages/helpers";
+import Form from "./buscador.astro";
+
+// Tamaño de la página: cuántos proyectos mostrar por página
+const pageSize = 5;
+
+// Obtener el parámetro 'page' desde la URL
+const url = new URL(Astro.request.url); // Convierte la URL en un objeto URL
+const page = Number(url.searchParams.get('page')) || 1;
+console.log(page);
+
+// Función para obtener los proyectos de la página actual
+const fetchPageData = async (page: number) => {
+  const preparedProjects = await CONT.fetchProyectos();
+  const startIndex = (page - 1) * pageSize; // Índice de inicio para la página
+  const endIndex = startIndex + pageSize; // Índice final para la página
+  console.info(page);
+
+  // Cortar los proyectos según la página actual
+  const projects = preparedProjects.slice(startIndex, endIndex);
+
+  return {
+    projects: projects.map((proyecto: Project) => prepareCardProject(proyecto, true)),
+    hasNextPage: endIndex < preparedProjects.length, // Si hay más proyectos después
+    hasPrevPage: startIndex > 0, // Si hay más proyectos antes
+  };
+};
+
+// Obtener los proyectos de la página actual
+const { projects, hasNextPage, hasPrevPage } = await fetchPageData(page);
+---
+
+<ul>
+
+  <!-- A todos los layouts les he puesto un id para que la barra de navegación del header los detecte y me permita navegar entre secciones -->
+  <section id="estudios">
+    <Layout title={"Studies"}>
+      {
+        CONT.estudios.map((item) => {
+          return (
+              <Card
+                  tiempo={item.año}
+                  nombre={item.titulo}
+                  descripcion={item.datos}
+                  instituto={item.instituto}
+              />
+          );
+        })
+      }
+    </Layout>
+  </section>
+
+  <section id="skills">
+    <Layout title={"Skills"}>
+      {
+        CONT.skills.map((item) => {
+          return (
+              <Card
+                  skill={item.skill}
+                  nivel={item.nivel}
+                  image={item.imagen}
+              />
+          );
+        })
+      }
+    </Layout>
+  </section>
+
+  <section id="trabajos">
+    <Layout title={"Jobs"}>
+      {
+        CONT.trabajos.map((item) => {
+          return (
+              <Card
+                  tiempo={item.tiempo}
+                  nombre={item.nombre}
+                  descripcion={item.descripcion}
+                  image={item.imagen}
+              />
+          );
+        })
+      }
+    </Layout>
+  </section>
+
+  <section id="proyectos">
+    <Form />
+    <Layout title={"Projects"}>
+      {
+      projects.map((project: Project) => (
+            <Card {...project} />
+        ))
+      }
+
+      <!-- Paginación -->
+      <div class="pagination-controls">
+        <a
+            href={`?page=${page - 1}`}
+            class={`prev-button ${!hasPrevPage ? 'disabled' : ''}`}
+            aria-disabled={!hasPrevPage}
+        >
+          Anterior
+        </a>
+        <a
+            href={`?page=${page + 1}`}
+            class={`next-button ${!hasNextPage ? 'disabled' : ''}`}
+            aria-disabled={!hasNextPage}
+        >
+          Siguiente
+        </a>
+      </div>
+    </Layout>
+  </section>
+
+  <section id="referencias">
+    <Layout title={"References"}>
+      {
+        CONT.referencias.map((item) => {
+          return (
+              <Card
+                  imagen={item.foto}
+                  name={item.name}
+                  descripcion={item.descripcion}
+                  oficio={item.oficio}
+                  url={item.url}
+                  enlace={item.linkedin}
+              />
+          );
+        })
+      }
+    </Layout>
+  </section>
+
+</ul>
+
+<style>
+  .pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .prev-button, .next-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  .prev-button.disabled, .next-button.disabled {
+    background-color: #ccc;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = Number(urlParams.get('page')) || 1;
+    console.log('Page parameter:', page);
+  });
+</script>

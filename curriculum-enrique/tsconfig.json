@@ -1,0 +1,14 @@
+{
+  "extends": "astro/tsconfigs/strict",
+
+  "compilerOptions": {
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "types": ["astro/client"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}

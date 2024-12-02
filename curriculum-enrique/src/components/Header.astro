@@ -1,0 +1,71 @@
+---
+import * as CONT from "../pages/contenido";
+---
+
+<!-- La seccion del encabezado -->
+<header class="mx-auto py-8">
+  <!-- La barra de navegación -->
+  <div class="flex justify-center items-center bg-amarilloMostaza">
+    <a href="#estudios">
+      <img
+      src="/public/g.png"
+      alt="References"
+      class="w-20 h-20 object-cover rounded-md transition-transform transform hover:scale-110"
+    />
+    </a>
+    <a href="#skills">
+      <img
+      src="/public/stonks.png"
+      alt="Skills"
+      class="w-20 h-20 object-cover rounded-md transition-transform transform hover:scale-110"
+    />
+    </a>
+    <a href="#trabajos">
+      <img
+      src="/public/historial.png"
+      alt="Trabajos"
+      class="w-20 h-20 object-cover rounded-md transition-transform transform hover:scale-110"
+    />
+    </a>
+    <a href="#proyectos">
+      <img
+      src="/public/proyecto.png"
+      alt="Proyectos"
+      class="w-20 h-20 object-cover rounded-md transition-transform transform hover:scale-110"
+    />
+    </a>
+    <a href="#referencias">
+      <img
+      src="/public/mundo.png"
+      alt="References"
+      class="w-20 h-20 object-cover rounded-md transition-transform transform hover:scale-110"
+    />
+    </a>
+  </div>
+
+  <!-- Lo que es la parte de la cabecera -->
+  <article
+    class="grid grid-cols-3 grid-rows-1 place-items-center w-[98vw] max-w-2xl"
+  >
+  <!-- La seccion de mi foto -->
+    <div
+      class="rounded-[1px] border-primary self-end md:w-24 aspect-square pr-1000"
+    >
+      <img
+        src="../../public/fotoMia.jpg"
+        alt="Foto mia"
+        class="object-cover rounded-full"
+      />
+    </div>
+
+    <!-- La seccion de mi informacion -->
+    <div class="grid text-center self-center whitespace-nowrap">
+      <h1 class="text-3xl text-text"><b>{CONT.nombre}</b></h1>
+      <h3 class="text-lg"><b>{CONT.quesoy}</b></h3>
+      <h5 class="text-sm">{CONT.descripcion}</h5>
+      <h5 class="text-sm">{CONT.descripcion2}</h5>
+      <h5 class="text-sm">{CONT.descripcion3}</h5>
+    </div>
+
+  </article>
+</header>
