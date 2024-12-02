@@ -1,0 +1,33 @@
+---
+import Header from '../components/Header.astro';
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+import Contenedor from '../components/Contenedor.astro';
+---
+
+<Layout>
+	<Header />
+	<!-- Este estilo es el que me permite hacer que las cartas estén posicionadas en el medio -->
+	<main class="mx-auto flex-grow max-h-[90vh] md:max-h-[70vh] max-w-3xl overflow-y-scroll grid gap-5 p-5 w-[95vw]">
+		<Contenedor />
+	</main>
+	<a href="/src/pages/form.php">Formulario</a>
+	<Footer />
+</Layout>
+
+<style is:global>
+	
+	 /* Para borrar la barra lateral de las cartas */
+	.overflow-y-scroll::-webkit-scrollbar {
+		width: 1px;
+	}
+
+	.overflow-y-scroll::-webkit-scrollbar-thumb {
+		/* background-color:#50595e; */
+	}
+
+	/* Lo mismo pero para firefox */
+	.overflow-y-scroll {
+		scrollbar-width: 1px;
+	}
+</style>
